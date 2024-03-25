@@ -41,13 +41,23 @@ public class ActorServiceImpl implements ActorService {
 	}
 
 	@Override
-	public void findById(Integer id) {
+	public void deleteActorId(Integer id) {
 		Optional<Actor> actorOptional = actorRepository.findById(id);
-		if(! actorOptional.isPresent()) {
+		if (!actorOptional.isPresent()) {
 			throw new DataException("actor not found", HttpStatus.NOT_FOUND.toString());
 		}
-		
+
 		actorRepository.delete(actorOptional.get());
+	}
+
+	@Override
+	public ActorResponseDto findById(Integer id) {
+		Optional<Actor> actorOptional = actorRepository.findById(id);
+		if (!actorOptional.isPresent()) {
+			throw new DataException("actor not found", HttpStatus.NOT_FOUND.toString());
+		}
+
+		return actorMapper.convertEntityToResponseDto(actorOptional.get());
 	}
 
 }

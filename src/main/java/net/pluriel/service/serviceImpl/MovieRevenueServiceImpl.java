@@ -25,7 +25,6 @@ public class MovieRevenueServiceImpl implements MovieRevenueService {
 
 	@Autowired
 	private MovieRevenueRepository movieRevenueRepository;
-	
 
 	@Override
 	public MovieRevenueResponseDto create(MovieRevenueRequestDto movieRevenueRequestDto) {
@@ -44,7 +43,7 @@ public class MovieRevenueServiceImpl implements MovieRevenueService {
 	@Override
 	public MovieRevenueResponseDto findById(Integer id) {
 		Optional<MovieRevenue> movieRevenuOptional = movieRevenueRepository.findById(id);
-		if(! movieRevenuOptional.isPresent()) {
+		if (!movieRevenuOptional.isPresent()) {
 			throw new DataException("movie Revenu not found", HttpStatus.NOT_FOUND.toString());
 		}
 		return movieRevenuMapper.convertEntityToResponseDto(movieRevenuOptional.get());
@@ -53,7 +52,7 @@ public class MovieRevenueServiceImpl implements MovieRevenueService {
 	@Override
 	public void deleteMovieRevenueId(Integer id) {
 		Optional<MovieRevenue> movieRevenuOptional = movieRevenueRepository.findById(id);
-		if(! movieRevenuOptional.isPresent()) {
+		if (!movieRevenuOptional.isPresent()) {
 			throw new DataException("movie Revenu not found", HttpStatus.NOT_FOUND.toString());
 		}
 		movieRevenueRepository.delete(movieRevenuOptional.get());

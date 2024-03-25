@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class MovieRevenueResponseDto {
-	 private BigDecimal domesticTakings;
-	 private BigDecimal internationalTakings;
-	 private LocalDateTime createdAt;
-	 private LocalDateTime updatedAt;
+	private BigDecimal domesticTakings;
+	private BigDecimal internationalTakings;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }

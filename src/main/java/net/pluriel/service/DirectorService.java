@@ -10,9 +10,13 @@ import net.pluriel.entities.Director;
 
 public interface DirectorService {
 	public DirectorResponseDto create(DirectorRequestDto directorRequestDto);
-	public Page<Director> findAllDirectors(Integer page , Integer pageSize);
+
+	public Page<Director> findAllDirectors(Integer page, Integer pageSize);
+
 	public DirectorResponseDto findById(Integer id);
+
 	public void deleteDirectorId(Integer id);
-	public DirectorResponseDto updateDirector(Integer id , DirectorRequestDto directorRequestDto);
-	
+
+	public DirectorResponseDto updateDirector(Integer id, DirectorRequestDto directorRequestDto);
+
 }

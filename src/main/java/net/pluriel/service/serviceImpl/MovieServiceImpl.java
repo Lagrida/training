@@ -26,70 +26,69 @@ import net.pluriel.repositories.DirectorRepostiory;
 import net.pluriel.repositories.MovieRepository;
 import net.pluriel.repositories.MovieRevenueRepository;
 import net.pluriel.service.MovieService;
+
 @Log4j2
 @Service
 public class MovieServiceImpl implements MovieService {
-	
+
 	@Autowired
 	private MovieMapper movieMapper;
-	
+
 	@Autowired
 	private MovieRepository movieRepository;
-	
-	@Autowired 
+
+	@Autowired
 	private MovieRevenueRepository movieRevenueRepository;
-	
-	@Autowired 
+
+	@Autowired
 	private DirectorRepostiory directorRepostiory;
-	
+
 	@Autowired
 	private ActorRepository actorRepository;
+
 	@Override
 	public Movie create(MovieRequestDto movieRequestDto) {
-	    Movie movie = movieMapper.convertRequestDtoToEntity(movieRequestDto);
+		Movie movie = movieMapper.convertRequestDtoToEntity(movieRequestDto);
 
-	    // Vérifier si movieRevenue existe
-	    MovieRevenue movieRevenue = movieRevenueRepository.findById(movieRequestDto.getMovieRevenueId())
-	            .orElseThrow(() -> new IllegalArgumentException("MovieRevenue not found"));
-	    movie.setMovieRevenue(movieRevenue);
+		// Vérifier si movieRevenue existe
+		MovieRevenue movieRevenue = movieRevenueRepository.findById(movieRequestDto.getMovieRevenueId())
+				.orElseThrow(() -> new IllegalArgumentException("MovieRevenue not found"));
+		movie.setMovieRevenue(movieRevenue);
 
-	    // Vérifier si le réalisateur existe
-	    Director director = directorRepostiory.findById(movieRequestDto.getDirectorId())
-	            .orElseThrow(() ->new IllegalArgumentException("director not found")); 
-	    movie.setDirector(director);
+		// Vérifier si le réalisateur existe
+		Director director = directorRepostiory.findById(movieRequestDto.getDirectorId())
+				.orElseThrow(() -> new IllegalArgumentException("director not found"));
+		movie.setDirector(director);
 
-	    // Récupérer et définir les acteurs
-	    Set<Integer> actorIds = movieRequestDto.getActors().stream()
-	            .map(Actor::getId)
-	            .collect(Collectors.toSet());
-	    List<Actor> actors = actorRepository.findAllById(actorIds);
-	    movie.setActors(actors);
+		// Récupérer et définir les acteurs
+		Set<Integer> actorIds = movieRequestDto.getActors().stream().map(Actor::getId).collect(Collectors.toSet());
+		List<Actor> actors = actorRepository.findAllById(actorIds);
+		movie.setActors(actors);
 
-	    movieRepository.save(movie);
+		movieRepository.save(movie);
 
-	    return  movieRepository.save(movie);
+		return movieRepository.save(movie);
 	}
-
 
 	@Override
 	public Page<Movie> findAllMovies(Integer page, Integer pageSize) {
-		
+
 		return movieRepository.findAll(PageRequest.of(page, pageSize));
 	}
 
 	@Override
 	public MovieResponseDto findById(Integer id) {
-	Optional<Movie> movieOptional = movieRepository.findById(id);
-	if(! movieOptional.isPresent()) {
-		throw new DataException("movie  not found", HttpStatus.NOT_FOUND.toString());
-	}
+		Optional<Movie> movieOptional = movieRepository.findById(id);
+		if (!movieOptional.isPresent()) {
+			throw new DataException("movie  not found", HttpStatus.NOT_FOUND.toString());
+		}
 		return movieMapper.convertEntityToResponseDto(movieOptional.get());
 	}
 
 	@Override
 	public void deleteMovieId(Integer id) {
 		Optional<Movie> movieOptional = movieRepository.findById(id);
-		if(! movieOptional.isPresent()) {
+		if (!movieOptional.isPresent()) {
 			throw new DataException("movie  not found", HttpStatus.NOT_FOUND.toString());
 		}
 		movieRepository.delete(movieOptional.get());
