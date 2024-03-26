@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 
 import net.pluriel.dto.request.DirectorRequestDto;
 import net.pluriel.dto.request.MovieRequestDto;
-import net.pluriel.dto.response.DirectorResponseDto;
 import net.pluriel.dto.response.MovieResponseDto;
 import net.pluriel.entities.Movie;
 
@@ -17,5 +16,5 @@ public interface MovieService {
 
 	public void deleteMovieId(Integer id);
 	
-	public MovieResponseDto updateMovie(Integer id, MovieRequestDto movieRequestDto);
+	public Movie updateMovie(Integer id, MovieRequestDto movieRequestDto);
 }

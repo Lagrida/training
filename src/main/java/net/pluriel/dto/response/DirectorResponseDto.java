@@ -16,6 +16,6 @@ public class DirectorResponseDto {
 	private Date birthday;
 	private Country nationality;
 	private Boolean status;
-	private LocalDateTime createdAt = LocalDateTime.now();
-	private LocalDateTime updatedAt = LocalDateTime.now();
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }

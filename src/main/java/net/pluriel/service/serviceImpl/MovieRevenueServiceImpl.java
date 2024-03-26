@@ -43,20 +43,16 @@ public class MovieRevenueServiceImpl implements MovieRevenueService {
 
 	@Override
 	public MovieRevenueResponseDto findById(Integer id) {
-		Optional<MovieRevenue> movieRevenuOptional = movieRevenueRepository.findById(id);
-		if (!movieRevenuOptional.isPresent()) {
-			throw new DataException("movie Revenu not found", HttpStatus.NOT_FOUND.toString());
-		}
-		return movieRevenuMapper.convertEntityToResponseDto(movieRevenuOptional.get());
+		MovieRevenue movieRevenuOptional = movieRevenueRepository.findById(id).orElseThrow(()-> new DataException("movie Revenu not found", HttpStatus.NOT_FOUND.toString()));
+		
+		return movieRevenuMapper.convertEntityToResponseDto(movieRevenuOptional);
 	}
 
 	@Override
 	public void deleteMovieRevenueId(Integer id) {
-		Optional<MovieRevenue> movieRevenuOptional = movieRevenueRepository.findById(id);
-		if (!movieRevenuOptional.isPresent()) {
-			throw new DataException("movie Revenu not found", HttpStatus.NOT_FOUND.toString());
-		}
-		movieRevenueRepository.delete(movieRevenuOptional.get());
+		MovieRevenue movieRevenuOptional = movieRevenueRepository.findById(id).orElseThrow(()-> new DataException("movie Revenu not found", HttpStatus.NOT_FOUND.toString()));
+
+		movieRevenueRepository.delete(movieRevenuOptional);
 
 	}
 

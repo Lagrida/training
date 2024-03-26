@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.pluriel.entities.Actor;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +18,7 @@ public class MovieRequestDto {
 	private Integer ageCertificate;
 	private Date releaseDate;
 	private Boolean status;
-	private Integer movieRevenueId;
-	private Integer directorId;
-	private List<Actor> actors ;
+	private MovieRevenueRequestDto movieRevenue;
+	private RequestIdDto director;
+	private List<RequestIdDto> actors;
 }

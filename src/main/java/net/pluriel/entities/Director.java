@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -25,7 +26,10 @@ import net.pluriel.entities.commons.Country;
 
 @Data
 @Entity
-@Table(name = "directors")
+@Table(name = "directors", 
+uniqueConstraints={
+		   @UniqueConstraint(columnNames = {"first_name", "last_name", "nationality"})
+})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -34,22 +38,22 @@ public class Director {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "birthday")
 	private Date birthday;
 
-	@Column(name = "nationality")
+	@Column(name = "nationality", nullable = false)
 	@Enumerated(EnumType.STRING)
 	@Builder.Default
 	private Country nationality = Country.American;
 
-	@Column(name = "status")
+	@Column(name = "status", columnDefinition = "boolean default true")
 	@Builder.Default
 	private Boolean status = true;
 

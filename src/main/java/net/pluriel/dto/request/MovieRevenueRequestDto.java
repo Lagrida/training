@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class MovieRevenueRequestDto {
-
-	 private BigDecimal domesticTakings=BigDecimal.ZERO;
-	 private BigDecimal internationalTakings=BigDecimal.ZERO;
+	private Integer id;
+	private BigDecimal domesticTakings;
+	private BigDecimal internationalTakings;
 }

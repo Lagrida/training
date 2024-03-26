@@ -16,6 +16,6 @@ public class ActorResponseDto {
 	private Date birthday;
 	private Boolean status;
 	private Gender gender;
-	private LocalDateTime createdAt = LocalDateTime.now();
-	private LocalDateTime updatedAt = LocalDateTime.now();
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }

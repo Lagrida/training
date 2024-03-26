@@ -3,6 +3,7 @@ package net.pluriel.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,11 +46,12 @@ public class MovieController {
 	public ResponseEntity<MovieResponseDto> findById(@PathVariable Integer id) {
 		return new ResponseEntity<MovieResponseDto>(movieService.findById(id), HttpStatus.OK);
 	}
-
-	@PutMapping("/update/{id}")
-	public ResponseEntity<MovieResponseDto> updateDirector(@PathVariable Integer id,
-			@RequestBody MovieRequestDto movieRequestDto) {
-		return new ResponseEntity<MovieResponseDto>(movieService.updateMovie(id, movieRequestDto),
-				HttpStatus.CREATED);
+	@PutMapping(value = "/update/{id}")
+	public ResponseEntity<Movie> updateDirector(@PathVariable Integer id,
+	        @RequestBody MovieRequestDto movieRequestDto) {
+	    return ResponseEntity.status(HttpStatus.CREATED)
+	                         .body(movieService.updateMovie(id, movieRequestDto));
 	}
+
+
 }

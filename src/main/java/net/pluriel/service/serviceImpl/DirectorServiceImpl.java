@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,12 @@ public class DirectorServiceImpl implements DirectorService {
 
 		Director directorRequest = directorMapper.convertRequestDtoToEntity(directorRequestDto);
 
-		directorRepostiory.save(directorRequest);
+		try {
+
+			directorRepostiory.save(directorRequest);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataException("Director already exists", HttpStatus.BAD_REQUEST.toString());
+		}
 
 		return directorMapper.convertEntityToResponseDto(directorRequest);
 	}
@@ -41,12 +47,10 @@ public class DirectorServiceImpl implements DirectorService {
 	@Override
 	public DirectorResponseDto findById(Integer id) {
 
-		Optional<Director> directorOptional = directorRepostiory.findById(id);
-		if (!directorOptional.isPresent()) {
-			throw new DataException("director not found", HttpStatus.NOT_FOUND.toString());
-		}
+		Director directorOptional = directorRepostiory.findById(id)
+				.orElseThrow(() -> new DataException("director not found", HttpStatus.NOT_FOUND.toString()));
 
-		return directorMapper.convertEntityToResponseDto(directorOptional.get());
+		return directorMapper.convertEntityToResponseDto(directorOptional);
 	}
 
 	@Override
@@ -58,12 +62,10 @@ public class DirectorServiceImpl implements DirectorService {
 	@Override
 	public void deleteDirectorId(Integer id) {
 
-		Optional<Director> directorOptional = directorRepostiory.findById(id);
-		if (!directorOptional.isPresent()) {
-			throw new DataException("director not found", HttpStatus.NOT_FOUND.toString());
-		}
+		Director directorOptional = directorRepostiory.findById(id)
+				.orElseThrow(() -> new DataException("director not found", HttpStatus.NOT_FOUND.toString()));
 
-		directorRepostiory.delete(directorOptional.get());
+		directorRepostiory.delete(directorOptional);
 
 	}
 

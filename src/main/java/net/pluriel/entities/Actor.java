@@ -19,6 +19,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -28,11 +30,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.pluriel.entities.commons.Country;
 import net.pluriel.entities.commons.Gender;
 
 @Data
 @Entity
-@Table(name = "actors")
+@Table(name = "actors", 
+	   uniqueConstraints={
+			   @UniqueConstraint(columnNames = {"first_name", "last_name", "nationality"})
+	 })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -41,22 +47,27 @@ public class Actor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "birthday")
 	private Date birthday;
 
+	@Column(name = "nationality",nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Builder.Default
+	private Country nationality = Country.American;
+
 	@Column(name = "gender")
 	@Enumerated(EnumType.STRING)
 	@Builder.Default
 	private Gender gender = Gender.Homme;
 
-	@Column(name = "status")
+	@Column(name = "status", columnDefinition = "boolean default true")
 	@Builder.Default
 	private Boolean status = true;
 
@@ -67,8 +78,4 @@ public class Actor {
 	@UpdateTimestamp
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
-	@JsonIgnore
-	@ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
-	private List<Movie> movies = new ArrayList<>();
-
 }

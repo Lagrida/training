@@ -3,10 +3,12 @@ package net.pluriel.service.serviceImpl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import net.pluriel.dto.mappers.ActorMapper;
 import net.pluriel.dto.request.ActorRequestDto;
@@ -29,7 +31,12 @@ public class ActorServiceImpl implements ActorService {
 	@Override
 	public ActorResponseDto create(ActorRequestDto actorRequestDto) {
 		Actor actorRequest = actorMapper.convertRequestDtoToEntity(actorRequestDto);
-		actorRepository.save(actorRequest);
+		 try {
+		        actorRepository.save(actorRequest);
+		    } catch (DataIntegrityViolationException e) {
+		        throw new DataException("Actor already exists", HttpStatus.BAD_REQUEST.toString());
+		    }
+		
 
 		return actorMapper.convertEntityToResponseDto(actorRequest);
 	}
@@ -42,22 +49,16 @@ public class ActorServiceImpl implements ActorService {
 
 	@Override
 	public void deleteActorId(Integer id) {
-		Optional<Actor> actorOptional = actorRepository.findById(id);
-		if (!actorOptional.isPresent()) {
-			throw new DataException("actor not found", HttpStatus.NOT_FOUND.toString());
-		}
+		Actor actorOptional = actorRepository.findById(id).orElseThrow(() -> new DataException("actor not found", HttpStatus.NOT_FOUND.toString()));
 
-		actorRepository.delete(actorOptional.get());
+		actorRepository.delete(actorOptional);
 	}
 
 	@Override
 	public ActorResponseDto findById(Integer id) {
-		Optional<Actor> actorOptional = actorRepository.findById(id);
-		if (!actorOptional.isPresent()) {
-			throw new DataException("actor not found", HttpStatus.NOT_FOUND.toString());
-		}
+		Actor actorOptional = actorRepository.findById(id).orElseThrow(() -> new DataException("actor not found", HttpStatus.NOT_FOUND.toString()));
 
-		return actorMapper.convertEntityToResponseDto(actorOptional.get());
+		return actorMapper.convertEntityToResponseDto(actorOptional);
 	}
 
 	@Override
@@ -65,11 +66,13 @@ public class ActorServiceImpl implements ActorService {
 		Actor actor = actorRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Actor not found"));
 
-		actor.setFirstName(actorRequestDto.getFirstName());
-		actor.setLastName(actorRequestDto.getLastName());
-		actor.setBirthday(actorRequestDto.getBirthday());
-		actor.setGender(actorRequestDto.getGender());
-		actor.setStatus(actorRequestDto.getStatus());
+		Actor actorRequest = actorMapper.convertRequestDtoToEntity(actorRequestDto);
+		
+		actor.setFirstName(actorRequest.getFirstName());
+		actor.setLastName(actorRequest.getLastName());
+		actor.setBirthday(actorRequest.getBirthday());
+		actor.setGender(actorRequest.getGender());
+		actor.setStatus(actorRequest.getStatus());
 
 		actorRepository.save(actor);
 

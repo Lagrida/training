@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,27 +35,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-@Table(name = "movies")
+@Table(name = "movies" ,uniqueConstraints={
+		   @UniqueConstraint(columnNames = {"release_date", "name"})
+})
 public class Movie {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "name")
+	@Column(name = "name" , nullable = false)
 	private String name;
 
 	@Column(name = "nbr_minute")
 	private Integer length;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "release_date")
+	@Column(name = "release_date", nullable = false )
 	private Date releaseDate;
 
 	@Column(name = "age_certificate")
 	private Integer ageCertificate;
 
-	@Column(name = "status")
+	@Column(name = "status", columnDefinition = "boolean default true")
 	@Builder.Default
 	private Boolean status = true;
 
@@ -66,15 +69,19 @@ public class Movie {
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "movie_revenue_id")
 	private MovieRevenue movieRevenue;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "director_id", nullable = true)
+	@JoinColumn(name = "director_id", nullable = false)
 	private Director director;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "T_Movie_Actors_Associations", joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
-	private List<Actor> actors = new ArrayList<>();
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+		name = "T_Movie_Actors_Associations",
+		joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
+	private List<Actor> actors;
 
 }
