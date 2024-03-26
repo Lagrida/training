@@ -50,17 +50,17 @@ public class MovieServiceImpl implements MovieService {
 	public Movie create(MovieRequestDto movieRequestDto) {
 		Movie movie = movieMapper.convertRequestDtoToEntity(movieRequestDto);
 
-		// Vérifier si movieRevenue existe
+		
 		MovieRevenue movieRevenue = movieRevenueRepository.findById(movieRequestDto.getMovieRevenueId())
 				.orElseThrow(() -> new IllegalArgumentException("MovieRevenue not found"));
 		movie.setMovieRevenue(movieRevenue);
 
-		// Vérifier si le réalisateur existe
+		
 		Director director = directorRepostiory.findById(movieRequestDto.getDirectorId())
 				.orElseThrow(() -> new IllegalArgumentException("director not found"));
 		movie.setDirector(director);
 
-		// Récupérer et définir les acteurs
+		
 		Set<Integer> actorIds = movieRequestDto.getActors().stream().map(Actor::getId).collect(Collectors.toSet());
 		List<Actor> actors = actorRepository.findAllById(actorIds);
 		movie.setActors(actors);
