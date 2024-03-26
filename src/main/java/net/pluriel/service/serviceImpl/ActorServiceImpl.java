@@ -42,12 +42,9 @@ public class ActorServiceImpl implements ActorService {
 
 	@Override
 	public void deleteActorId(Integer id) {
-		Optional<Actor> actorOptional = actorRepository.findById(id);
-		if (!actorOptional.isPresent()) {
-			throw new DataException("actor not found", HttpStatus.NOT_FOUND.toString());
-		}
+		Actor actorOptional = actorRepository.findById(id).orElseThrow(() -> new DataException("actor not found", HttpStatus.NOT_FOUND.toString()));
 
-		actorRepository.delete(actorOptional.get());
+		actorRepository.delete(actorOptional);
 	}
 
 	@Override
@@ -65,11 +62,13 @@ public class ActorServiceImpl implements ActorService {
 		Actor actor = actorRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Actor not found"));
 
-		actor.setFirstName(actorRequestDto.getFirstName());
-		actor.setLastName(actorRequestDto.getLastName());
-		actor.setBirthday(actorRequestDto.getBirthday());
-		actor.setGender(actorRequestDto.getGender());
-		actor.setStatus(actorRequestDto.getStatus());
+		Actor actorRequest = actorMapper.convertRequestDtoToEntity(actorRequestDto);
+		
+		actor.setFirstName(actorRequest.getFirstName());
+		actor.setLastName(actorRequest.getLastName());
+		actor.setBirthday(actorRequest.getBirthday());
+		actor.setGender(actorRequest.getGender());
+		actor.setStatus(actorRequest.getStatus());
 
 		actorRepository.save(actor);
 

@@ -67,8 +67,4 @@ public class Actor {
 	@UpdateTimestamp
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
-	@JsonIgnore
-	@ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
-	private List<Movie> movies = new ArrayList<>();
-
 }
