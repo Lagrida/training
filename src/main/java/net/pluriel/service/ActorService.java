@@ -15,4 +15,6 @@ public interface ActorService {
 	public ActorResponseDto findById(Integer id);
 
 	public void deleteActorId(Integer id);
+
+	public ActorResponseDto updateActor(Integer id, ActorRequestDto actorRequestDto);
 }

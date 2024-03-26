@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,5 +44,12 @@ public class MovieController {
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<MovieResponseDto> findById(@PathVariable Integer id) {
 		return new ResponseEntity<MovieResponseDto>(movieService.findById(id), HttpStatus.OK);
+	}
+
+	@PutMapping("/update/{id}")
+	public ResponseEntity<MovieResponseDto> updateDirector(@PathVariable Integer id,
+			@RequestBody MovieRequestDto movieRequestDto) {
+		return new ResponseEntity<MovieResponseDto>(movieService.updateMovie(id, movieRequestDto),
+				HttpStatus.CREATED);
 	}
 }

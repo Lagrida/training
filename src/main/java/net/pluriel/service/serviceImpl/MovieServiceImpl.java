@@ -94,4 +94,20 @@ public class MovieServiceImpl implements MovieService {
 		movieRepository.delete(movieOptional.get());
 	}
 
+	@Override
+	public MovieResponseDto updateMovie(Integer id, MovieRequestDto movieRequestDto) {
+		Movie movie = movieRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+
+		movie.setName(movieRequestDto.getName());
+		movie.setLength(movieRequestDto.getLength());
+		movie.setReleaseDate(movieRequestDto.getReleaseDate());
+		movie.setAgeCertificate(movieRequestDto.getAgeCertificate());
+		movie.setStatus(movieRequestDto.getStatus());
+
+		movieRepository.save(movie);
+
+		return movieMapper.convertEntityToResponseDto(movie);
+	}
+
 }

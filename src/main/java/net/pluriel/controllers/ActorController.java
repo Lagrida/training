@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import net.pluriel.dto.request.ActorRequestDto;
+import net.pluriel.dto.request.DirectorRequestDto;
 import net.pluriel.dto.response.ActorResponseDto;
 import net.pluriel.dto.response.DirectorResponseDto;
 import net.pluriel.entities.Actor;
@@ -26,20 +28,28 @@ public class ActorController {
 
 	@PostMapping
 	public ResponseEntity<ActorResponseDto> create(@RequestBody ActorRequestDto actorRequestDto) {
-		return new ResponseEntity<ActorResponseDto>(actorService.create(actorRequestDto),
-				HttpStatus.CREATED);
+		return new ResponseEntity<ActorResponseDto>(actorService.create(actorRequestDto), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/all/{page}/{pageSize}")
 	public ResponseEntity<Page<Actor>> findAll(@PathVariable Integer page, @PathVariable Integer pageSize) {
 		return new ResponseEntity<>(actorService.findAllActors(page, pageSize), HttpStatus.OK);
 	}
+
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<ActorResponseDto> findById(@PathVariable Integer id) {
-	return new ResponseEntity<ActorResponseDto>(actorService.findById(id), HttpStatus.OK);
+		return new ResponseEntity<ActorResponseDto>(actorService.findById(id), HttpStatus.OK);
 	}
+
 	@DeleteMapping("/delete/{id}")
 	public void deleteActor(@PathVariable Integer id) {
 		actorService.deleteActorId(id);
+	}
+
+	@PutMapping("/update/{id}")
+	public ResponseEntity<ActorResponseDto> updateDirector(@PathVariable Integer id,
+			@RequestBody ActorRequestDto actorRequestDto) {
+		return new ResponseEntity<ActorResponseDto>(actorService.updateActor(id, actorRequestDto),
+				HttpStatus.CREATED);
 	}
 }

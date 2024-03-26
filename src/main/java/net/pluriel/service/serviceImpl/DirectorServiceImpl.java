@@ -70,12 +70,17 @@ public class DirectorServiceImpl implements DirectorService {
 	@Override
 	public DirectorResponseDto updateDirector(Integer id, DirectorRequestDto directorRequestDto) {
 		Director director = directorRepostiory.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Doctor not found"));
-		// Director director2=
-		// directorMapper.convertRequestDtoToEntity(directorRequestDto);
+				.orElseThrow(() -> new IllegalArgumentException("Director not found"));
+
+		director.setFirstName(directorRequestDto.getFirstName());
+		director.setLastName(directorRequestDto.getLastName());
+		director.setBirthday(directorRequestDto.getBirthday());
+		director.setNationality(directorRequestDto.getNationality());
+		director.setStatus(directorRequestDto.getStatus());
+
+		directorRepostiory.save(director);
 
 		return directorMapper.convertEntityToResponseDto(director);
-
 	}
 
 }

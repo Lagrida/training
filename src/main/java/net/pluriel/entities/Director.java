@@ -30,35 +30,35 @@ import net.pluriel.entities.commons.Country;
 @AllArgsConstructor
 @Builder
 public class Director {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    
-    @Column(name = "first_name")
-    private String firstName;
-    
-    @Column(name = "last_name")
-    private String lastName;
-    
-    @Temporal(TemporalType.DATE)
-    @Column(name = "birthday")
-    private Date birthday;
-    
-    @Column(name = "nationality")
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private Country nationality = Country.American;
-    
-    @Column(name = "status")
-    @Builder.Default
-    private Boolean status = true;
-    
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	@Column(name = "first_name")
+	private String firstName;
+
+	@Column(name = "last_name")
+	private String lastName;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "birthday")
+	private Date birthday;
+
+	@Column(name = "nationality")
+	@Enumerated(EnumType.STRING)
+	@Builder.Default
+	private Country nationality = Country.American;
+
+	@Column(name = "status")
+	@Builder.Default
+	private Boolean status = true;
+
 	@Column(name = "created_at", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-	
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    
-    
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+
+	@UpdateTimestamp
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
+
 }

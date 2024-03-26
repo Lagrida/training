@@ -12,6 +12,6 @@ public class MovieResponseDto {
 	private Integer movieRevenueId;
 	private Date releaseDate;
 	private Integer directorId;
-	 private LocalDateTime updatedAt;
-	 private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
+	private LocalDateTime createdAt;
 }

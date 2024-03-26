@@ -17,7 +17,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Entity
 @Table(name = "movie_revenue")
@@ -26,22 +25,22 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MovieRevenue {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    
-    @Column(name = "domestic_takings")
-    private BigDecimal domesticTakings;
-    
-    @Column(name = "international_takings")
-    private BigDecimal internationalTakings;
-    
-    @Column(name = "created_at", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-	
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	@Column(name = "domestic_takings")
+	private BigDecimal domesticTakings;
+
+	@Column(name = "international_takings")
+	private BigDecimal internationalTakings;
+
+	@Column(name = "created_at", updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+
+	@UpdateTimestamp
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
 
 }

@@ -9,11 +9,10 @@ import net.pluriel.dto.response.ErrorResponse;
 
 @ControllerAdvice
 public class ResponseEntityExceptonHandler {
-	 @ExceptionHandler(DataException.class)
-	    public ResponseEntity<ErrorResponse> handleAdherentNotFound(DataException data){
-	        return  new ResponseEntity<>(new ErrorResponse().builder()
-	                .errorMessage(data.getMessage())
-	                .errorCode(data.getErrorCode())
-	                .build(), HttpStatus.BAD_REQUEST);
-	    }
+	@ExceptionHandler(DataException.class)
+	public ResponseEntity<ErrorResponse> handleAdherentNotFound(DataException data) {
+		return new ResponseEntity<>(
+				new ErrorResponse().builder().errorMessage(data.getMessage()).errorCode(data.getErrorCode()).build(),
+				HttpStatus.BAD_REQUEST);
+	}
 }

@@ -15,6 +15,7 @@ import net.pluriel.entities.Director;
 import net.pluriel.entities.MovieRevenue;
 import net.pluriel.exception.DataException;
 import net.pluriel.repositories.DirectorRepostiory;
+import net.pluriel.repositories.MovieRepository;
 import net.pluriel.repositories.MovieRevenueRepository;
 import net.pluriel.service.MovieRevenueService;
 
@@ -57,6 +58,17 @@ public class MovieRevenueServiceImpl implements MovieRevenueService {
 		}
 		movieRevenueRepository.delete(movieRevenuOptional.get());
 
+	}
+
+	@Override
+	public MovieRevenueResponseDto updateMovieRevenu(Integer id, MovieRevenueRequestDto movieRevenueRequestDto) {
+		MovieRevenue movieRevenue = movieRevenueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Movie revenu  not found"));
+		movieRevenue.setDomesticTakings(movieRevenueRequestDto.getDomesticTakings());
+		movieRevenue.setInternationalTakings(movieRevenueRequestDto.getInternationalTakings());
+
+		movieRevenueRepository.save(movieRevenue);
+
+		return movieRevenuMapper.convertEntityToResponseDto(movieRevenue);
 	}
 
 }

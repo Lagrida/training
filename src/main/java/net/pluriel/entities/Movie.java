@@ -53,30 +53,28 @@ public class Movie {
 
 	@Column(name = "age_certificate")
 	private Integer ageCertificate;
-	
+
 	@Column(name = "status")
 	@Builder.Default
 	private Boolean status = true;
-	
+
 	@Column(name = "created_at", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-	
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    
-    @OneToOne
-    private MovieRevenue movieRevenue;
-    
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="director_id", nullable = true)
-    private Director director;
-    
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable( name = "T_Movie_Actors_Associations",
-                joinColumns = @JoinColumn( name = "movie_id" , referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn( name = "actor_id", referencedColumnName = "id" ) )
-    private List<Actor> actors = new ArrayList<>();
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+
+	@UpdateTimestamp
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
+
+	@OneToOne
+	private MovieRevenue movieRevenue;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "director_id", nullable = true)
+	private Director director;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "T_Movie_Actors_Associations", joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
+	private List<Actor> actors = new ArrayList<>();
 
 }

@@ -60,4 +60,20 @@ public class ActorServiceImpl implements ActorService {
 		return actorMapper.convertEntityToResponseDto(actorOptional.get());
 	}
 
+	@Override
+	public ActorResponseDto updateActor(Integer id, ActorRequestDto actorRequestDto) {
+		Actor actor = actorRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Actor not found"));
+
+		actor.setFirstName(actorRequestDto.getFirstName());
+		actor.setLastName(actorRequestDto.getLastName());
+		actor.setBirthday(actorRequestDto.getBirthday());
+		actor.setGender(actorRequestDto.getGender());
+		actor.setStatus(actorRequestDto.getStatus());
+
+		actorRepository.save(actor);
+
+		return actorMapper.convertEntityToResponseDto(actor);
+	}
+
 }

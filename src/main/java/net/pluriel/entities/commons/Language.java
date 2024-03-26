@@ -2,7 +2,8 @@ package net.pluriel.entities.commons;
 
 public enum Language {
 
-	English("English"), Japanese("Japanese"), Chinese("Chinese") ,Portuguese("Portuguese") ;
+	English("English"), Japanese("Japanese"), Chinese("Chinese"), Portuguese("Portuguese");
+
 	private final String language;
 
 	Language(String language) {

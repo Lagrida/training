@@ -37,38 +37,38 @@ import net.pluriel.entities.commons.Gender;
 @AllArgsConstructor
 @Builder
 public class Actor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    
-    @Column(name = "first_name")
-    private String firstName;
-    
-    @Column(name = "last_name")
-    private String lastName;
-    
-    @Temporal(TemporalType.DATE)
-    @Column(name = "birthday")
-    private Date birthday;
-    
-    @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private Gender gender = Gender.Homme;
-    
-    @Column(name = "status")
-    @Builder.Default
-    private Boolean status = true;
-    
-    @Column(name = "created_at", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-	
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    @JsonIgnore
-    @ManyToMany(mappedBy = "actors",fetch = FetchType.LAZY)
-    private List<Movie> movies = new ArrayList<>();
-    
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	@Column(name = "first_name")
+	private String firstName;
+
+	@Column(name = "last_name")
+	private String lastName;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "birthday")
+	private Date birthday;
+
+	@Column(name = "gender")
+	@Enumerated(EnumType.STRING)
+	@Builder.Default
+	private Gender gender = Gender.Homme;
+
+	@Column(name = "status")
+	@Builder.Default
+	private Boolean status = true;
+
+	@Column(name = "created_at", updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+
+	@UpdateTimestamp
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
+	@JsonIgnore
+	@ManyToMany(mappedBy = "actors", fetch = FetchType.LAZY)
+	private List<Movie> movies = new ArrayList<>();
+
 }
