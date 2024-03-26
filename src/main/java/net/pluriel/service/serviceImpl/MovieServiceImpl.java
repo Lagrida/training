@@ -105,23 +105,20 @@ public class MovieServiceImpl implements MovieService {
 		movie.setReleaseDate(movieRequestDto.getReleaseDate());
 		movie.setAgeCertificate(movieRequestDto.getAgeCertificate());
 		movie.setStatus(movieRequestDto.getStatus());
-		log.info("====> 2  {} : ",movie );
 
 		MovieRevenue movieRevenue = movie.getMovieRevenue();
 	    movieRevenue.setDomesticTakings(movieRequestDto.getMovieRevenue().getDomesticTakings());
 	    movieRevenue.setInternationalTakings(movieRequestDto.getMovieRevenue().getInternationalTakings());
 	    movie.setMovieRevenue(movieRevenue);
-		log.info("====> 3  {} : ",movie );
 
 	    Director director = directorRepostiory.findById(movieRequestDto.getDirector().getId())
 	            .orElseThrow(() -> new IllegalArgumentException("Director not found"));
 	    movie.setDirector(director);
-		log.info("====> 4  {} : ",movie );
 
 	    Set<Integer> actorIds = movieRequestDto.getActors().stream().map(RequestIdDto::getId).collect(Collectors.toSet());
 	    List<Actor> actors = actorRepository.findAllById(actorIds);
 	    movie.setActors(actors);
-		log.info("====> 5  {} : ",movie );
+		
 		return movieRepository.save(movie);
 	}
 
